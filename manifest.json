@@ -1,0 +1,63 @@
+{
+  "name": "Generador QR — OurToolkit",
+  "short_name": "QR Generator",
+  "description": "Genera códigos QR personalizados al instante: URLs, texto, WiFi, vCard. Gratis, sin registro ni marcas de agua.",
+  "start_url": "/qr/es/",
+  "scope": "/qr/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#08080f",
+  "theme_color": "#6366f1",
+  "lang": "es",
+  "categories": [
+    "utilities",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "/qr/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/qr/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Español",
+      "url": "/qr/es/",
+      "description": "Abrir en español"
+    },
+    {
+      "name": "English",
+      "url": "/qr/en/",
+      "description": "Open in English"
+    },
+    {
+      "name": "Português",
+      "url": "/qr/pt/",
+      "description": "Abrir em português"
+    },
+    {
+      "name": "Français",
+      "url": "/qr/fr/",
+      "description": "Ouvrir en français"
+    }
+  ],
+  "share_target": {
+    "action": "/qr/es/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "prefer_related_applications": false
+}
