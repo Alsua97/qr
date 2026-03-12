@@ -23,6 +23,9 @@
     <link rel="alternate" hreflang="x-default" href="https://Alsua97.github.io/qr/en/" />
     <!-- PWA -->
     <link rel="manifest" href="/qr/manifest.json" />
+    <link rel="apple-touch-icon" href="/qr/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/qr/icons/icon-192.png" />
+    <link rel="apple-touch-icon" sizes="512x512" href="/qr/icons/icon-512.png" />
     <meta name="theme-color" content="#6366f1" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -1030,6 +1033,7 @@
             color: #fff;
         }
         .header-calc-name {
+            display: none; /* visible only in standalone mode */
             font-size:.88rem; font-weight:700; color:var(--text);
             overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
         }
@@ -1117,6 +1121,7 @@
             .tool-badge { display:none !important; }
             .header-calc-icon { display:flex !important; }
             .header-calc-name {
+                display:block !important;
                 font-size:1rem; font-weight:700;
                 background:linear-gradient(90deg,var(--accent-h) 0%,#10b981 100%);
                 -webkit-background-clip:text; -webkit-text-fill-color:transparent;
@@ -2266,7 +2271,7 @@
                         btnOk.textContent = 'Cómo instalar';
                         btnOk.addEventListener('click', function () {
                             banner.style.display = 'none';
-                            alert('En Safari: toca Compartir ↑ → "Añadir a pantalla de inicio"');
+                            alert('Para instalar en iPhone:\n1. Toca el botón Compartir (cuadro con flecha) en Safari\n2. Selecciona "Añadir a pantalla de inicio"\n3. Toca "Añadir"');
                         }, { once: true });
                         banner.style.display = 'block';
                     }, 4000);
@@ -2366,7 +2371,7 @@
             </div>
             <div style="flex:1;min-width:0;">
                 <div style="font-size:.88rem;font-weight:700;color:#ecedf8;margin-bottom:2px;font-family:'Outfit',sans-serif;">¡Genera QR desde cualquier app!</div>
-                <div style="font-size:.77rem;color:#8888a0;line-height:1.4;">Instala el generador: comparte URLs y texto directamente a QR.</div>
+                <div style="font-size:.77rem;color:#8888a0;line-height:1.4;">Guárdalo en tu pantalla de inicio — abre al instante, sin buscar en el navegador.</div>
             </div>
             <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
                 <button id="pwaInstallBtn" style="background:linear-gradient(90deg,#6366f1,#10b981);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">Instalar gratis</button>
