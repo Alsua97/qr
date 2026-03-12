@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es" data-theme="system">
 
 <head>
     <meta charset="UTF-8">
@@ -14,10 +14,23 @@
         content="Crea códigos QR personalizados al instante. Sin registro, sin marcas de agua.">
     <meta property="og:type" content="website">
     <meta name="robots" content="index, follow">
+    <meta property="og:url" content="https://Alsua97.github.io/qr/es/">
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="es" href="https://Alsua97.github.io/qr/es/" />
+    <link rel="alternate" hreflang="en" href="https://Alsua97.github.io/qr/en/" />
+    <link rel="alternate" hreflang="pt" href="https://Alsua97.github.io/qr/pt/" />
+    <link rel="alternate" hreflang="fr" href="https://Alsua97.github.io/qr/fr/" />
+    <link rel="alternate" hreflang="x-default" href="https://Alsua97.github.io/qr/en/" />
+    <!-- PWA -->
+    <link rel="manifest" href="/qr/manifest.json" />
+    <meta name="theme-color" content="#6366f1" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="QR Generator" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -37,8 +50,13 @@
             --rc: 14px;
             --rb: 8px;
             --ease: cubic-bezier(.22, 1, .36, 1);
-            --font-d: 'Syne', sans-serif;
-            --font-b: 'Plus Jakarta Sans', sans-serif
+            --font-title: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --header-h: 56px;
+            --radius-card: 14px;
+            --border-h: rgba(255,255,255,.1);
+            --accent-bg: rgba(99,102,241,.1);
+            --shadow-h: 0 8px 40px rgba(0,0,0,.45), 0 2px 8px rgba(0,0,0,.3)
         }
 
         [data-theme="light"] {
@@ -49,7 +67,10 @@
             --text-sec: #4a4a6a;
             --text-hint: #9090b8;
             --border: rgba(99, 102, 241, .12);
-            --border-solid: rgba(99, 102, 241, .22)
+            --border-solid: rgba(99, 102, 241, .22);
+            --border-h: rgba(0,0,0,.1);
+            --accent-bg: rgba(99,102,241,.08);
+            --shadow-h: 0 8px 40px rgba(0,0,0,.15), 0 2px 8px rgba(0,0,0,.08)
         }
 
         *,
@@ -65,7 +86,7 @@
         }
 
         body {
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             background: var(--bg);
             color: var(--text);
             font-size: 16px;
@@ -107,7 +128,7 @@
             gap: 8px;
             text-decoration: none;
             color: var(--text);
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-weight: 800;
             font-size: 1.05rem;
             transition: opacity .2s;
@@ -128,7 +149,7 @@
             justify-content: center;
             font-size: .8rem;
             color: #fff;
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-weight: 800
         }
 
@@ -177,12 +198,17 @@
 
         .ad-container {
             width: 100%;
-            display: flex;
+            display: none; /* hidden until ad loads */
             justify-content: center;
+            padding: 0;
+        }
+
+        .ad-container.loaded {
+            display: flex;
             padding: 12px 0;
             background: var(--surface);
             border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border)
+            border-bottom: 1px solid var(--border);
         }
 
         .ad-placeholder {
@@ -216,7 +242,7 @@
         }
 
         .tool-hero h1 {
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-size: clamp(1.8rem, 4vw, 2.8rem);
             font-weight: 800;
             line-height: 1.15;
@@ -265,7 +291,7 @@
             background: transparent;
             color: var(--text-sec);
             cursor: pointer;
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             font-size: .85rem;
             font-weight: 600;
             border-radius: 6px;
@@ -298,7 +324,7 @@
             border: 1px solid var(--border-solid);
             border-radius: var(--rb);
             color: var(--text);
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             font-size: .95rem;
             transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
             min-height: 44px;
@@ -351,7 +377,7 @@
         }
 
         .settings-title {
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-size: .8rem;
             font-weight: 700;
             color: var(--text-hint);
@@ -385,7 +411,7 @@
             color: var(--text-sec);
             border-radius: var(--rb);
             cursor: pointer;
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             font-size: .82rem;
             font-weight: 600;
             transition: all .2s var(--ease);
@@ -420,7 +446,7 @@
             color: var(--text-sec);
             border-radius: var(--rb);
             cursor: pointer;
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             font-weight: 700;
             font-size: .9rem;
             transition: all .2s var(--ease);
@@ -499,7 +525,7 @@
             color: var(--text-sec);
             background: none;
             border: none;
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             cursor: text;
             width: 68px
         }
@@ -692,7 +718,7 @@
             border: none;
             border-radius: var(--rb);
             cursor: pointer;
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             font-size: .9rem;
             font-weight: 600;
             transition: all .2s var(--ease);
@@ -727,7 +753,7 @@
             border: 1px solid var(--border-solid);
             border-radius: var(--rb);
             cursor: pointer;
-            font-family: var(--font-b);
+            font-family: var(--font-body);
             font-size: .9rem;
             font-weight: 600;
             transition: all .2s var(--ease);
@@ -754,14 +780,14 @@
         }
 
         .info-section h2 {
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-size: clamp(1.4rem, 3vw, 2rem);
             font-weight: 800;
             margin-bottom: 20px
         }
 
         .info-section h3 {
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-size: 1.1rem;
             font-weight: 700;
             margin: 28px 0 10px
@@ -793,7 +819,7 @@
         }
 
         .info-card h4 {
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-weight: 700;
             margin-bottom: 6px
         }
@@ -809,7 +835,7 @@
         }
 
         .faq-section h2 {
-            font-family: var(--font-d);
+            font-family: var(--font-title);
             font-size: clamp(1.4rem, 3vw, 2rem);
             font-weight: 800;
             margin-bottom: 24px
@@ -977,6 +1003,127 @@
                 min-height: 44px
             }
         }
+    
+        /* ── HEADER ──────────────────────────────────────────────────── */
+        .site-header {
+            height: var(--header-h);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8,8,15,.85);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border);
+            transition: background .3s;
+        }
+        [data-theme="light"] .site-header { background: rgba(244,244,251,.88); }
+        .header-inner { display:flex; align-items:center; gap:16px; height:100%; }
+        .header-sep { color: var(--text-hint); font-size:.85rem; }
+        .header-title-wrap {
+            flex:1; display:flex; align-items:center; gap:9px; overflow:hidden;
+        }
+        .header-calc-icon {
+            display: none;
+            align-items: center; justify-content: center;
+            width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+            background: linear-gradient(135deg, var(--accent) 0%, #10b981 100%);
+            color: #fff;
+        }
+        .header-calc-name {
+            font-size:.88rem; font-weight:700; color:var(--text);
+            overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+        }
+
+        /* ── THEME BUTTON ─────────────────────────────────────────────── */
+        .theme-btn {
+            display:flex; align-items:center; justify-content:center;
+            width:36px; height:36px; border-radius:8px; border:none;
+            background:transparent; color:var(--text-sec); cursor:pointer;
+            transition:background .15s,color .15s; flex-shrink:0;
+        }
+        .theme-btn:hover { background:var(--accent-bg); color:var(--accent-h); }
+
+        /* ── CONFIG PANEL ─────────────────────────────────────────────── */
+        .cfg-panel {
+            position:fixed; top:calc(var(--header-h) + 8px); right:16px;
+            width:224px; background:var(--surface); border:1px solid var(--border-h);
+            border-radius:var(--radius-card); box-shadow:var(--shadow-h);
+            z-index:500; padding:14px; display:none;
+            animation:panelIn .18s cubic-bezier(.22,1,.36,1);
+        }
+        .cfg-panel.open { display:block; }
+        @keyframes panelIn {
+            from { opacity:0; transform:translateY(-8px) scale(.97); }
+            to   { opacity:1; transform:none; }
+        }
+        .cfg-overlay { position:fixed; inset:0; z-index:499; display:none; }
+        .cfg-overlay.open { display:block; }
+        .cfg-row { display:flex; align-items:center; justify-content:space-between; padding:4px 2px; }
+        .cfg-row-label {
+            font-size:.72rem; font-weight:600; color:var(--text-hint);
+            letter-spacing:.05em; text-transform:uppercase; flex-shrink:0;
+        }
+        .cfg-dropdown { position:relative; }
+        .cfg-trigger {
+            display:inline-flex; align-items:center; gap:5px;
+            padding:5px 8px; border-radius:7px; border:1px solid var(--border-h);
+            background:transparent; color:var(--text-sec); font-size:.78rem;
+            font-weight:500; cursor:pointer; transition:all .15s;
+            font-family:var(--font-body); white-space:nowrap;
+        }
+        .cfg-trigger:hover, .cfg-dropdown.open .cfg-trigger {
+            border-color:var(--accent); color:var(--accent-h);
+        }
+        .cfg-trigger svg.chevron { transition:transform .2s; opacity:.5; }
+        .cfg-dropdown.open .cfg-trigger svg.chevron { transform:rotate(180deg); opacity:1; }
+        .cfg-menu {
+            display:none; position:absolute; top:calc(100% + 5px); right:0;
+            background:var(--surface); border:1px solid var(--border-h);
+            border-radius:9px; box-shadow:var(--shadow-h);
+            overflow:hidden; min-width:130px; z-index:10;
+            animation:panelIn .15s cubic-bezier(.22,1,.36,1);
+        }
+        .cfg-dropdown.open .cfg-menu { display:block; }
+        .cfg-menu-item {
+            display:flex; align-items:center; gap:7px;
+            padding:8px 12px; font-size:.8rem; font-weight:500;
+            color:var(--text-sec); cursor:pointer;
+            transition:background .12s,color .12s;
+            border:none; background:none; width:100%;
+            font-family:var(--font-body); white-space:nowrap;
+        }
+        .cfg-menu-item:hover { background:var(--accent-bg); color:var(--accent-h); }
+        .cfg-menu-item.active { color:var(--accent-h); font-weight:700; }
+        .cfg-menu-item.active::after {
+            content:''; display:block; width:6px; height:6px;
+            border-radius:50%; background:var(--accent); margin-left:auto;
+        }
+        .cfg-divider { height:1px; background:var(--border); margin:8px 0; }
+        .cfg-action-row { display:flex; gap:6px; margin-top:2px; }
+        .cfg-action-btn {
+            flex:1; display:flex; align-items:center; justify-content:center; gap:5px;
+            padding:7px 6px; border-radius:8px; background:var(--accent-bg);
+            border:1px solid rgba(99,102,241,.2); color:var(--accent-h);
+            font-size:.76rem; font-weight:600; cursor:pointer; text-decoration:none;
+            font-family:var(--font-body); transition:background .15s,border-color .15s;
+        }
+        .cfg-action-btn:hover { background:rgba(99,102,241,.18); border-color:var(--accent); }
+
+        /* ── STANDALONE ───────────────────────────────────────────────── */
+        @media (display-mode: standalone) {
+            .faq-section, .info-section, .site-footer { display:none !important; }
+            .logo { display:none !important; }
+            .header-sep { display:none !important; }
+            .tool-badge { display:none !important; }
+            .header-calc-icon { display:flex !important; }
+            .header-calc-name {
+                font-size:1rem; font-weight:700;
+                background:linear-gradient(90deg,var(--accent-h) 0%,#10b981 100%);
+                -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+                background-clip:text;
+            }
+        }
+
     </style>
 </head>
 
@@ -984,20 +1131,40 @@
 
     <header class="site-header">
         <div class="container header-inner">
-            <a href="https://ourtoolkit.blogspot.com" class="logo" title="OurToolkit">
-                <div class="logo-icon">OT</div>
-                <span>OurToolkit</span>
+            <a href="https://ourtoolkit.blogspot.com" class="logo" title="OurToolkit — Herramientas gratuitas">
+                <span class="logo-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff"
+                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                    </svg>
+                </span>
+                Our<span class="logo-dot">Toolkit</span>
             </a>
-            <span class="header-sep">/</span>
-            <span class="tool-badge">Generador QR</span>
-            <div class="header-actions">
-                <button class="theme-btn" id="themeToggle" aria-label="Cambiar tema">🌙</button>
+            <div class="header-title-wrap">
+                <span class="header-sep">/</span>
+                <span class="tool-badge">Generador QR</span>
+                <!-- Standalone only -->
+                <span class="header-calc-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <path d="M7 7h4v4H7zM7 13h4v4H7zM13 7h4v4h-4zM15 15h2M13 13h2"/>
+                    </svg>
+                </span>
+                <span class="header-calc-name">Generador QR</span>
             </div>
+            <button class="theme-btn" id="cfgBtn" title="Configuración" aria-label="Configuración">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+            </button>
         </div>
     </header>
 
     <!-- .ad-top: Banner publicitario superior AdsTerra -->
-    <div class="ad-container ad-top">
+    <div class="ad-container ad-top" id="adTop">
         <div class="ad-desktop"><!-- AdsTerra Banner 728x90 Desktop -->
             <div class="ad-placeholder" style="width:728px;height:90px">Publicidad · 728×90</div>
         </div>
@@ -1016,10 +1183,10 @@
             <div class="tool-grid">
                 <div class="card">
                     <div class="tabs" role="tablist">
-                        <button class="tab active" data-tab="url">🔗 URL</button>
-                        <button class="tab" data-tab="text">📝 Texto</button>
-                        <button class="tab" data-tab="wifi">📶 WiFi</button>
-                        <button class="tab" data-tab="vcard">👤 vCard</button>
+                        <button class="tab active" data-tab="url"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> URL</button>
+                        <button class="tab" data-tab="text"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg> Texto</button>
+                        <button class="tab" data-tab="wifi"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg> WiFi</button>
+                        <button class="tab" data-tab="vcard"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> vCard</button>
                     </div>
                     <div class="tab-content active" id="tab-url">
                         <input type="url" id="urlInput" class="input" placeholder="https://tu-sitio-web.com"
@@ -1056,7 +1223,7 @@
                         </div>
                     </div>
                     <div class="settings-section">
-                        <div class="settings-title">⚙ Personalización</div>
+                        <div class="settings-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:-2px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Personalización</div>
                         <div class="setting-group">
                             <span class="setting-label">Nivel de corrección de errores</span>
                             <div class="ec-row">
@@ -1113,14 +1280,14 @@
                             <span class="setting-label">Logo en el centro <small
                                     style="color:var(--text-hint)">(requiere EC = H)</small></span>
                             <div class="logo-upload" id="logoUploadArea">
-                                <span style="font-size:1.3rem">🖼️</span>
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                                 <span id="logoUploadLabel">Subir logo (PNG, JPG, SVG)</span>
                                 <input type="file" id="logoFileInput" accept="image/*">
                             </div>
                             <div class="logo-hint" id="logoHint" style="display:none">
                                 Logo cargado — EC cambiado a H automáticamente.
                                 <button id="removeLogoBtn"
-                                    style="background:none;border:none;color:var(--error);cursor:pointer;font-size:.78rem;font-weight:700;margin-left:6px">✕
+                                    style="background:none;border:none;color:var(--error);cursor:pointer;font-size:.78rem;font-weight:700;margin-left:6px;display:inline-flex;align-items:center;padding:2px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                                     Quitar</button>
                             </div>
                         </div>
@@ -1155,8 +1322,7 @@
                             <span class="meta-chip">EC: <span id="metaEC">M</span></span>
                             <span class="meta-chip"><span id="metaSize">—</span> módulos</span>
                         </div>
-                        <div class="qr-error" id="qrError">⚠ Texto demasiado largo. Usa EC=L o reduce el contenido.
-                        </div>
+                        <div class="qr-error" id="qrError"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-2px;margin-right:4px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Texto demasiado largo. Usa EC=L o reduce el contenido.</div>
                         <div class="action-grid">
                             <button class="btn-primary" id="btnPng" disabled>
                                 <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
@@ -1176,7 +1342,7 @@
                                 </svg>
                                 SVG
                             </button>
-                            <button class="btn-secondary btn-full" id="btnCopy" disabled>📋 Copiar al
+                            <button class="btn-secondary btn-full" id="btnCopy" disabled><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar al
                                 portapapeles</button>
                         </div>
                     </div>
@@ -1186,7 +1352,7 @@
     </main>
 
     <!-- .ad-mid: Native banner publicitario después del resultado principal -->
-    <div class="ad-container ad-mid">
+    <div class="ad-container ad-mid" id="adMid">
         <div class="ad-desktop"><!-- AdsTerra Native Banner Desktop -->
             <div class="ad-placeholder" style="width:728px;height:90px">Publicidad · 728×90</div>
         </div>
@@ -1210,25 +1376,25 @@
                 versiones 1-40, todos los niveles de corrección de errores y los 8 patrones de máscara.</p>
             <div class="info-grid">
                 <div class="info-card">
-                    <div class="info-card-icon">🔗</div>
+                    <div class="info-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></div>
                     <h4>Modo URL / Enlace</h4>
                     <p>Pega cualquier URL, enlace a redes sociales, tienda online o página web. Ideal para menús
                         digitales, catálogos y tarjetas de visita.</p>
                 </div>
                 <div class="info-card">
-                    <div class="info-card-icon">📝</div>
+                    <div class="info-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg></div>
                     <h4>Modo Texto</h4>
                     <p>Codifica mensajes, instrucciones, cupones de descuento, coordenadas GPS o cualquier texto de
                         hasta 1200 caracteres con EC baja.</p>
                 </div>
                 <div class="info-card">
-                    <div class="info-card-icon">📶</div>
+                    <div class="info-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></div>
                     <h4>Modo WiFi</h4>
                     <p>Genera un QR que conecta automáticamente al WiFi al escanearlo. Compatible con WPA2, WEP y redes
                         abiertas. Perfecto para hoteles, cafeterías y oficinas.</p>
                 </div>
                 <div class="info-card">
-                    <div class="info-card-icon">👤</div>
+                    <div class="info-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
                     <h4>Modo vCard</h4>
                     <p>Crea una tarjeta de contacto digital. Al escanear el QR, el teléfono ofrece guardar el contacto
                         con nombre, teléfono, email y web automáticamente.</p>
@@ -1310,7 +1476,7 @@
     </section>
 
     <!-- .ad-footer: Banner publicitario al final de la página -->
-    <div class="ad-container ad-footer">
+    <div class="ad-container ad-footer" id="adFooter">
         <div class="ad-desktop"><!-- AdsTerra Banner Footer 728x90 -->
             <div class="ad-placeholder" style="width:728px;height:90px">Publicidad · 728×90</div>
         </div>
@@ -1827,7 +1993,7 @@
                 rd.onload = function (e) {
                     var img = new Image();
                     img.onload = function () {
-                        S.logoImg = img; la.classList.add('has-logo'); ll.textContent = '✓ ' + f.name; lh.style.display = 'block';
+                        S.logoImg = img; la.classList.add('has-logo'); ll.textContent = f.name; lh.style.display = 'block';
                         document.querySelectorAll('.ec-item').forEach(function (b) { b.classList.remove('active'); });
                         document.querySelector('[data-ec="H"]').classList.add('active');
                         S.eclKey = 'H'; S.ecl = ECL.H; $('metaEC').textContent = 'H'; go();
@@ -1924,7 +2090,7 @@
                 overlayLogo(cv, S.qr.size, ms);
                 cv.toBlob(function (blob) {
                     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'qr-ourtoolkit.png'; a.click(); URL.revokeObjectURL(a.href);
-                    toast('✓ PNG descargado', 'success');
+                    toast('PNG descargado', 'success');
                 }, 'image/png');
             });
 
@@ -1934,7 +2100,7 @@
                 var svg = renderSVG(S.qr, { ms: 10, mg: 4, dark: S.fg, light: S.bg, style: S.style });
                 var blob = new Blob([svg], { type: 'image/svg+xml' });
                 var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'qr-ourtoolkit.svg'; a.click(); URL.revokeObjectURL(a.href);
-                toast('✓ SVG descargado', 'success');
+                toast('SVG descargado', 'success');
             });
 
             // Copy
@@ -1946,19 +2112,272 @@
                 overlayLogo(cv, S.qr.size, ms);
                 cv.toBlob(function (blob) {
                     navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })])
-                        .then(function () { toast('✓ Imagen copiada', 'success'); })
+                        .then(function () { toast('Imagen copiada', 'success'); })
                         .catch(function () { toast('No se pudo copiar', 'error'); });
                 });
             });
 
+            // ── Web Share Target: read ?url= or ?text= from other apps ─────
+            (function () {
+                var sp = new URLSearchParams(location.search);
+                var sharedUrl  = sp.get('url')  || sp.get('text') || '';
+                var sharedTitle = sp.get('title') || '';
+                if (sharedUrl) {
+                    var inp = document.getElementById('urlInput');
+                    if (inp) {
+                        inp.value = sharedUrl;
+                        go();
+                        setTimeout(function () { inp.focus(); }, 200);
+                    }
+                }
+            })();
+
+            // ── Config Panel — init after DOM ready ─────────────────────────
+            var root = document.documentElement;
+            function initPanel() {
+            var cfgBtn = document.getElementById('cfgBtn');
+            var panel  = document.getElementById('cfgPanel');
+            var overlay = document.getElementById('cfgOverlay');
+            if (!cfgBtn || !panel || !overlay) return;
+
+            cfgBtn.addEventListener('click', function () {
+                panel.classList.toggle('open');
+                overlay.classList.toggle('open');
+            });
+            overlay.addEventListener('click', function () {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                document.querySelectorAll('.cfg-dropdown').forEach(function (d) { d.classList.remove('open'); });
+            });
+            document.querySelectorAll('.cfg-trigger').forEach(function (t) {
+                t.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    var dd = t.closest('.cfg-dropdown');
+                    var isOpen = dd.classList.contains('open');
+                    document.querySelectorAll('.cfg-dropdown').forEach(function (d) { d.classList.remove('open'); });
+                    if (!isOpen) dd.classList.add('open');
+                });
+            });
+
             // Theme
-            var TB = $('themeToggle');
-            function applyTheme(dark) { document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light'); TB.textContent = dark ? '🌙' : '☀️'; }
-            TB.addEventListener('click', function () { applyTheme(document.documentElement.getAttribute('data-theme') !== 'dark'); if (S.qr) render(); });
-            applyTheme(true);
+            var THEME_LABELS = { system: 'Sistema', dark: 'Oscuro', light: 'Claro' };
+            var THEME_SVGS = {
+                system: '<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>',
+                dark:   '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+                light:  '<circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>'
+            };
+            function applyTheme(pref) {
+                var actual = pref === 'system'
+                    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : pref;
+                root.setAttribute('data-theme', actual);
+                localStorage.setItem('hkTheme', pref);
+                document.getElementById('themeLabel').textContent = THEME_LABELS[pref] || pref;
+                document.getElementById('themeIcon').innerHTML = THEME_SVGS[pref] || THEME_SVGS.system;
+                document.querySelectorAll('[data-theme-opt]').forEach(function (b) {
+                    b.classList.toggle('active', b.getAttribute('data-theme-opt') === pref);
+                });
+                if (S.qr) render();
+            }
+            applyTheme(localStorage.getItem('hkTheme') || 'system');
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+                if (localStorage.getItem('hkTheme') === 'system') applyTheme('system');
+            });
+            document.querySelectorAll('[data-theme-opt]').forEach(function (b) {
+                b.addEventListener('click', function () {
+                    applyTheme(b.getAttribute('data-theme-opt'));
+                    document.getElementById('themeDropdown').classList.remove('open');
+                });
+            });
+
+            // Language
+            var LANG_LABELS = { es: 'ES', en: 'EN', pt: 'PT', fr: 'FR' };
+            var currentLang = location.pathname.includes('/en/') ? 'en'
+                : location.pathname.includes('/pt/') ? 'pt'
+                : location.pathname.includes('/fr/') ? 'fr' : 'es';
+            document.getElementById('langLabel').textContent = LANG_LABELS[currentLang];
+            document.querySelectorAll('[data-lang]').forEach(function (b) {
+                b.classList.toggle('active', b.getAttribute('data-lang') === currentLang);
+                b.addEventListener('click', function () {
+                    var t = b.getAttribute('data-lang');
+                    if (t !== currentLang) location.href = '/qr/' + t + '/';
+                    document.getElementById('langDropdown').classList.remove('open');
+                });
+            });
+
+            // Share
+            document.getElementById('shareBtn').addEventListener('click', function () {
+                panel.classList.remove('open');
+                overlay.classList.remove('open');
+                if (navigator.share) {
+                    navigator.share({ title: 'Generador QR — OurToolkit', url: location.href });
+                } else {
+                    navigator.clipboard && navigator.clipboard.writeText(location.href).then(function () { toast('URL copiada', 'success'); });
+                }
+            });
+            } // end initPanel
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initPanel);
+            } else {
+                initPanel();
+            }
+
+            // ── watchAd: MutationObserver para anuncios sin espacio vacío ─────
+            function watchAd(zoneId) {
+                var zone = document.getElementById(zoneId);
+                if (!zone) return;
+                var timer = setTimeout(function () {
+                    if (!zone.classList.contains('loaded')) zone.style.display = 'none';
+                }, 4000);
+                new MutationObserver(function () {
+                    if (zone.querySelector('iframe, ins, div[id^="aswift"]')) {
+                        zone.classList.add('loaded');
+                        clearTimeout(timer);
+                    }
+                }).observe(zone, { childList: true, subtree: true });
+            }
+            ['adTop','adMid','adFooter'].forEach(watchAd);
+
             $('urlInput').focus();
 
+            // ── PWA Install Banner ────────────────────────────────────────────
+            (function () {
+                var deferredPrompt = null;
+                var banner = document.getElementById('pwaInstallBanner');
+                var btnOk  = document.getElementById('pwaInstallBtn');
+                var btnNo  = document.getElementById('pwaInstallDismiss');
+                if (!banner) return;
+                if (window.matchMedia('(display-mode: standalone)').matches) return;
+                if (localStorage.getItem('pwaInstallDismissed')) return;
+                window.addEventListener('beforeinstallprompt', function (e) {
+                    e.preventDefault(); deferredPrompt = e;
+                    setTimeout(function () { banner.style.display = 'block'; }, 4000);
+                });
+                btnOk.addEventListener('click', function () {
+                    banner.style.display = 'none';
+                    if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(function () { deferredPrompt = null; }); }
+                });
+                btnNo.addEventListener('click', function () {
+                    banner.style.display = 'none';
+                    localStorage.setItem('pwaInstallDismissed', '1');
+                });
+                var isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+                if (isIos && !window.navigator.standalone && !localStorage.getItem('pwaInstallDismissed')) {
+                    setTimeout(function () {
+                        btnOk.textContent = 'Cómo instalar';
+                        btnOk.addEventListener('click', function () {
+                            banner.style.display = 'none';
+                            alert('En Safari: toca Compartir ↑ → "Añadir a pantalla de inicio"');
+                        }, { once: true });
+                        banner.style.display = 'block';
+                    }, 4000);
+                }
+            })();
+
+
         })();
+    </script>
+
+    <!-- Config Panel -->
+    <div id="cfgPanel" class="cfg-panel">
+        <div class="cfg-row">
+            <span class="cfg-row-label">Tema</span>
+            <div class="cfg-dropdown" id="themeDropdown">
+                <button class="cfg-trigger" id="themeTrigger">
+                    <svg id="themeIcon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span id="themeLabel">Sistema</span>
+                    <svg class="chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="cfg-menu">
+                    <button class="cfg-menu-item active" data-theme-opt="system">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        Sistema
+                    </button>
+                    <button class="cfg-menu-item" data-theme-opt="dark">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        Oscuro
+                    </button>
+                    <button class="cfg-menu-item" data-theme-opt="light">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                        Claro
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cfg-divider"></div>
+
+        <div class="cfg-row">
+            <span class="cfg-row-label">Idioma</span>
+            <div class="cfg-dropdown" id="langDropdown">
+                <button class="cfg-trigger" id="langTrigger">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                    </svg>
+                    <span id="langLabel">ES</span>
+                    <svg class="chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="cfg-menu">
+                    <button class="cfg-menu-item active" data-lang="es">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+                        ES Español
+                    </button>
+                    <button class="cfg-menu-item" data-lang="en">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+                        EN English
+                    </button>
+                    <button class="cfg-menu-item" data-lang="pt">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+                        PT Português
+                    </button>
+                    <button class="cfg-menu-item" data-lang="fr">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+                        FR Français
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="cfg-divider"></div>
+
+        <div class="cfg-action-row">
+            <button class="cfg-action-btn" id="shareBtn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Compartir
+            </button>
+            <a class="cfg-action-btn" href="https://ourtoolkit.blogspot.com" target="_blank">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                Herramientas
+            </a>
+        </div>
+    </div>
+    <div id="cfgOverlay" class="cfg-overlay"></div>
+
+    <!-- PWA Install Banner -->
+    <div id="pwaInstallBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;padding:0 16px 16px;pointer-events:none;">
+        <div style="background:linear-gradient(135deg,#1a1a3e,#0f2027);border:1px solid rgba(99,102,241,.35);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;box-shadow:0 8px 40px rgba(0,0,0,.6);pointer-events:all;max-width:520px;margin:0 auto;">
+            <div style="width:46px;height:46px;border-radius:12px;flex-shrink:0;background:linear-gradient(135deg,#7c3aed,#6366f1,#0d9488);display:flex;align-items:center;justify-content:center;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M7 7h4v4H7zM7 13h4v4H7zM13 7h4v4h-4zM15 15h2M13 13h2"/>
+                </svg>
+            </div>
+            <div style="flex:1;min-width:0;">
+                <div style="font-size:.88rem;font-weight:700;color:#ecedf8;margin-bottom:2px;font-family:'Outfit',sans-serif;">¡Genera QR desde cualquier app!</div>
+                <div style="font-size:.77rem;color:#8888a0;line-height:1.4;">Instala el generador: comparte URLs y texto directamente a QR.</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0;">
+                <button id="pwaInstallBtn" style="background:linear-gradient(90deg,#6366f1,#10b981);color:#fff;border:none;border-radius:8px;padding:8px 16px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;">Instalar gratis</button>
+                <button id="pwaInstallDismiss" style="background:transparent;color:#555570;border:1px solid #2a2a4a;border-radius:8px;padding:5px 16px;font-size:.75rem;cursor:pointer;">Ahora no</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/qr/sw.js');
+        }
     </script>
 </body>
 
